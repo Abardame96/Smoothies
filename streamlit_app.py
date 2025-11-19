@@ -25,10 +25,6 @@ my_dataframe = session.table("smoothies.public.orders").select(col('NAME_ON_ORDE
 # st.dataframe(data=my_dataframe, use_container_width=True)
 # st.stop()
 
-pd_df = my_dataframe.to_pandas()
-st.dataframe(pd_df)
-# st.stop()
-
 ingredients_list = st.multiselect(
     'Choose up the 5 fruits:'
     , my_dataframe
@@ -37,7 +33,8 @@ ingredients_list = st.multiselect(
 if ingredients_list:
     # st.write(ingredients_list)
     # st.text(ingredients_list)
-
+    pd_df = my_dataframe.to_pandas()
+    st.dataframe(pd_df)
     ingredients_string = ''
     for fruit_chosen in ingredients_list:
       ingredients_string += fruit_chosen + ' '
