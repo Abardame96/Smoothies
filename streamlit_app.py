@@ -48,7 +48,7 @@ if ingredients_list and name_on_order:
     insert_stmt = f"""
         INSERT INTO smoothies.public.orders
         (NAME_ON_ORDER, INGREDIENTS, ORDER_FILLED, ORDER_TS)
-        VALUES ('{name_on_order}', '{ingredients_string}', {str(order_filled).upper()}, '{order_ts}')
+        VALUES ('{name_on_order}', '{ingredients_string}', {order_filled}, '{order_ts}')
     """
 
     # Afficher la requête pour debug
