@@ -21,7 +21,7 @@ users_map = {
 
 cnx = st.connection("snowflake")
 session = cnx.session()
-my_dataframe = session.table("smoothies.public.orders").select(col('FRUIT_NAME'), col('SEARCH_ON'), col('ORDER_FILLED'))
+my_dataframe = session.table("smoothies.public.orders").select(col('NAME_ON_ORDER'), col('INGREDIENTS'), col('ORDER_FILLED'))
 st.dataframe(data=my_dataframe, use_container_width=True)
 st.stop()
 
