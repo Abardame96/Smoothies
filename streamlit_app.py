@@ -1,38 +1,21 @@
-# Import Python packages
 import streamlit as st
 from snowflake.snowpark.functions import col
 
 st.title(":cup_with_straw: Final Lab - Creating Orders")
 
-# Connexion Snowflake
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-# Définir les 3 commandes exactes
 orders_to_create = [
-    {
-        "name": "Kevin",
-        "fruits": ["Apples", "Lime", "Ximenia"],
-        "filled": False
-    },
-    {
-        "name": "Divya",
-        "fruits": ["Dragon Fruit", "Guava", "Figs", "Jackfruit", "Blueberries"],
-        "filled": True
-    },
-    {
-        "name": "Xi",
-        "fruits": ["Vanilla Fruit", "Nectarine"],
-        "filled": True
-    }
+    {"name": "Kevin", "fruits": ["Apples", "Lime", "Ximenia"], "filled": False},
+    {"name": "Divya", "fruits": ["Dragon Fruit", "Guava", "Figs", "Jackfruit", "Blueberries"], "filled": True},
+    {"name": "Xi", "fruits": ["Vanilla Fruit", "Nectarine"], "filled": True}
 ]
 
-# Afficher un récap
-st.write("These are the orders that will be inserted:")
+st.write("These orders will be inserted:")
 for order in orders_to_create:
     st.write(f"{order['name']} → Fruits: {', '.join(order['fruits'])}, Filled: {order['filled']}")
 
-# Bouton pour créer toutes les commandes
 if st.button("Create Lab Orders"):
     for order in orders_to_create:
         ingredients_string = ' '.join(order['fruits'])
@@ -43,9 +26,10 @@ if st.button("Create Lab Orders"):
         VALUES ('{ingredients_string}', '{order['name']}', {filled_str})
         """
         
-        session.sql(insert_stmt).collect()
-    
+        session.sql(insert_stmt).execute()  # <-- utiliser execute() ici
+        
     st.success("All 3 lab orders have been created successfully!", icon="✅")
+
 
 
 # # Import python packages
