@@ -3,11 +3,11 @@ import streamlit as st
 from snowflake.snowpark.functions import col
 from datetime import datetime
 
-# Titre
+# Titre de l'app
 st.title(":cup_with_straw: Final Lab - Creating Orders")
-st.write("This app will create the 3 lab orders with the exact fruit order required for grading.")
+st.write("This app will insert the 3 lab orders exactly as required for grading.")
 
-# Connexion Snowflake
+# Connexion à Snowflake
 cnx = st.connection("snowflake")
 session = cnx.session()
 
@@ -30,12 +30,12 @@ orders_to_create = [
     }
 ]
 
-# Afficher les commandes pour vérification
+# Affichage des commandes pour vérification
 st.write("These orders will be inserted:")
 for order in orders_to_create:
     st.write(f"{order['name_on_order']} → Fruits: {order['ingredients']}, Filled: {order['order_filled']}")
 
-# Bouton pour insérer les commandes
+# Bouton pour insérer les commandes dans Snowflake
 if st.button("Create Lab Orders"):
     for order in orders_to_create:
         order_ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
