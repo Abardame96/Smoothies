@@ -57,7 +57,7 @@ if ingredients_list and name_on_order:
     # Bouton pour insérer dans Snowflake
     if st.button('Submit Order'):
         # Avec Snowpark, utiliser execute() et non collect() pour INSERT
-        session.sql(insert_stmt)
+        session.sql(insert_stmt).execute()
         st.success('Your Smoothie is ordered!', icon="✅")
 
 
