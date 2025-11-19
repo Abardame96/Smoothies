@@ -26,8 +26,8 @@ if st.button("Create Lab Orders"):
         VALUES ('{ingredients_string}', '{order['name_on_order']}', {filled_str})
         """
         
-        session.sql(insert_stmt).execute()  # <-- utiliser execute() ici
-        
+        session.sql(insert_stmt).collect() 
+    st.stop()    
     st.success("All 3 lab orders have been created successfully!", icon="✅")
 
 
