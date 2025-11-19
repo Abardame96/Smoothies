@@ -24,7 +24,7 @@ session = cnx.session()
 my_dataframe = session.table("smoothies.public.orders").select(col('NAME_ON_ORDER'), col('INGREDIENTS'), col('ORDER_FILLED'))
 # st.dataframe(data=my_dataframe, use_container_width=True)
 # st.stop()
-smoothiefroot_response = requests.get(f"https://my.smoothiefroot.com/api/fruit/{search_on}")
+smoothiefroot_response = requests.get(f"https://my.smoothiefroot.com/api/fruit/all")
 st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
 
 
