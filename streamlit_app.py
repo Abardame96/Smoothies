@@ -28,8 +28,7 @@ fruit_names = [fruit['name'] for fruit in fruits_data]
 # Multiselect pour choisir jusqu'à 5 fruits
 ingredients_list = st.multiselect(
     'Choose up to 5 fruits:',
-    options=fruit_names,
-    max_selections=5
+    options=fruit_names
 )
 
 if ingredients_list and name_on_order:
