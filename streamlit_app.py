@@ -1,34 +1,24 @@
-import streamlit as st
-from snowflake.snowpark.functions import col
+from snowflake.snowpark import Session
+from snowflake.snowpark.types import StructType, StructField, StringType, BooleanType
+from snowflake.snowpark import Row
 
-st.title(":cup_with_straw: Final Lab - Creating Orders")
-
-cnx = st.connection("snowflake")
-session = cnx.session()
-
-orders_to_create = [
-    {"name_on_order": "Kevin", "ingredients": ["Apples", "Lime", "Ximenia"], "order_filled": False},
-    {"name_on_order": "Divya", "ingredients": ["Dragon Fruit", "Guava", "Figs", "Jackfruit", "Blueberries"], "order_filled": True},
-    {"name_on_order": "Xi", "ingredients": ["Vanilla Fruit", "Nectarine"], "order_filled": True}
-]
-
-st.write("These orders will be inserted:")
+rows = []
 for order in orders_to_create:
-    st.write(f"{order['name_on_order']} → Fruits: {', '.join(order['ingredients'])}, Filled: {order['order_filled']}")
+    rows.append(Row(
+        ingredients=' '.join(order['ingredients']),
+        name_on_order=order['name_on_order'],
+        filled=order['order_filled']
+    ))
 
-if st.button("Create Lab Orders"):
-    for order in orders_to_create:
-        ingredients_string = ' '.join(order['ingredients'])
-        filled_str = 'TRUE' if order['order_filled'] else 'FALSE'
-        
-        insert_stmt = f"""
-        INSERT INTO smoothies.public.orders (ingredients, name_on_order, filled)
-        VALUES ('{ingredients_string}', '{order['name_on_order']}', {filled_str})
-        """
-        
-        session.sql(insert_stmt).execute()
-  
-    st.success("All 3 lab orders have been created successfully!", icon="✅")
+schema = StructType([
+    StructField("ingredients", StringType()),
+    StructField("name_on_order", StringType()),
+    StructField("filled", BooleanType())
+])
+
+df = session.create_dataframe(rows, schema)
+df.write.mode("append").save_as_table("smoothies.public.orders")
+
 
 
 
